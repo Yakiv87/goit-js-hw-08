@@ -47,6 +47,10 @@ function onGalleryItemClick(evt) {
   });
   
   instance.show();
+  const lightbox = new SimpleLightbox('.gallery__link', {
+    captionDelay: 250,
+    captionsData: 'alt',
+  });
 
   const largeImageURL = evt.target.dataset.source;
   instance.element().querySelector('img').src = largeImageURL;
