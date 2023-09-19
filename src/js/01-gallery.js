@@ -1,9 +1,9 @@
-// Add imports above this line
-
-import { galleryItems } from './gallery-items';
-import SimpleLightbox from "simplelightbox";
-import SimpleLightbox from "simplelightbox/dist/simple-lightbox.esm";
+import { galleryItems } from './gallery-items.js';
 // Change code below this line
+import SimpleLightbox from "simplelightbox";
+// Додатковий імпорт стилів
+import "simplelightbox/dist/simple-lightbox.min.css";
+console.log(galleryItems);
 
 const galleryList = document.querySelector('.gallery');
 const galleryItemMarkup = createGalleryMarkup(galleryItems);
@@ -19,46 +19,15 @@ function createGalleryMarkup(galleryItems) {
     <img
       class="gallery__image"
       src="${preview}"
-      data-source="${original}"
       alt="${description}"
     />
   </a>
 </li>`;
   }).join("");
 }
-galleryList.addEventListener('click', onGalleryItemClick);
 
-function onGalleryItemClick(evt) {
-  evt.preventDefault();
-  
-  if (evt.target.nodeName !== 'IMG') {
-    return;
-  }
-  
-  const instance = basicLightbox.create(`
-    <img src="" width="800" height="600">
-  `, {
-    onShow: (instance) => {
-      window.addEventListener('keydown', onEscapeKeyPress);
-    },
-    onClose: (instance) => {
-      window.removeEventListener('keydown', onEscapeKeyPress);
-    }
-  });
-  
-  instance.show();
-  const lightbox = new SimpleLightbox('.gallery__link', {
-    captionDelay: 250,
+ new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
+    captionPosition: 'bottom',
+    captionDelay: 250,
   });
-
-  const largeImageURL = evt.target.dataset.source;
-  instance.element().querySelector('img').src = largeImageURL;
-
-   function onEscapeKeyPress(evt) {
-    if (evt.code === 'Escape') {
-      instance.close();
-     }
-  }
-}
-console.log(galleryItems);
